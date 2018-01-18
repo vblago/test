@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">Test</string>
     <string name="first_question_str">Оцените работу нашего сервиса</string>
+    <string name="great_str">Отлично</string>
+    <string name="good_str">Хорошо</string>
+    <string name="fine_str">Нормально</string>
+    <string name="bad_str">Плохо</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

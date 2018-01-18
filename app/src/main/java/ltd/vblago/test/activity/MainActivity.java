@@ -1,4 +1,4 @@
-package ltd.vblago.test;
+package ltd.vblago.test.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import ltd.vblago.test.R;
+import ltd.vblago.test.fragment.FirstQuestionFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,18 +20,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         hideUI();
-
         unbinder = ButterKnife.bind(this);
-    }
 
-    @OnClick({ R.id.great_view, R.id.good_view})
-    public void clickGood(){
-        Toast.makeText(getApplicationContext(), "Переход на страничку: Спасибо за ваш отзыв", Toast.LENGTH_SHORT).show();
-    }
-
-    @OnClick({ R.id.fine_view, R.id.bad_view})
-    public void clickBad(){
-        Toast.makeText(getApplicationContext(), "Переход на страничку: Что Вам не понравилось", Toast.LENGTH_SHORT).show();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, FirstQuestionFragment.newInstance())
+                .commit();
     }
 
     private void hideUI() {
