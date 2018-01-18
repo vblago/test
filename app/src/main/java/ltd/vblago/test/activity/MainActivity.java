@@ -8,9 +8,15 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import ltd.vblago.test.R;
 import ltd.vblago.test.fragment.FirstQuestionFragment;
+import ltd.vblago.test.fragment.ResultFragment;
+import ltd.vblago.test.fragment.SecondQuestionFragment;
+import ltd.vblago.test.model.ActivityCommunication;
+import ltd.vblago.test.model.Comment;
+import ltd.vblago.test.util.SendRequest;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ActivityCommunication {
 
+    public Comment comment;
     Unbinder unbinder;
 
     @Override
@@ -19,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         hideUI();
         unbinder = ButterKnife.bind(this);
+
+        comment = new Comment();
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -47,5 +55,53 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+    }
+
+    @Override
+    public void setFirstAnswer(String answer) {
+        if (answer.equals("great")){
+            comment.great = "1";
+            goToResultFragment();
+        } else if (answer.equals("good")){
+            comment.good = "1";
+            goToResultFragment();
+        } else if (answer.equals("fine")){
+            comment.fine = "1";
+            goToSecondQuestionFragment();
+        } else if (answer.equals("bad")){
+            comment.bad = "1";
+            goToSecondQuestionFragment();
+        }
+    }
+
+    @Override
+    public void setSecondAnswer(String answer) {
+        if (answer.equals("range")){
+            comment.range = "1";
+        } else if (answer.equals("quality")){
+            comment.quality = "1";
+        } else if (answer.equals("price")){
+            comment.price = "1";
+        }
+        goToResultFragment();
+    }
+
+    private void goToSecondQuestionFragment(){
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, SecondQuestionFragment.newInstance())
+                .commit();
+    }
+
+    private void goToResultFragment(){
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, ResultFragment.newInstance())
+                .commit();
+        sendInfo();
+    }
+
+    public void sendInfo() {
+        new SendRequest(comment).execute();
     }
 }

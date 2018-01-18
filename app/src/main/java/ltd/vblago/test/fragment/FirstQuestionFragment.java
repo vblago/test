@@ -1,6 +1,7 @@
 package ltd.vblago.test.fragment;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,10 +12,23 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import ltd.vblago.test.R;
+import ltd.vblago.test.model.ActivityCommunication;
+import ltd.vblago.test.model.Comment;
 
 public class FirstQuestionFragment extends Fragment {
 
+    ActivityCommunication activityCommunication;
     Unbinder unbinder;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof ActivityCommunication) {
+            activityCommunication = (ActivityCommunication) context;
+        } else {
+            throw new RuntimeException(Context.class.getSimpleName() + " must implement ActivityCommunication interface");
+        }
+    }
 
     public static FirstQuestionFragment newInstance() {
         return new FirstQuestionFragment();
@@ -30,20 +44,24 @@ public class FirstQuestionFragment extends Fragment {
         return root;
     }
 
-    @OnClick({ R.id.great_view, R.id.good_view})
-    public void clickGood(){
-        getActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container, ResultFragment.newInstance())
-                .commit();
+    @OnClick(R.id.great_view)
+    public void clickGreat(){
+        activityCommunication.setFirstAnswer("great");
     }
 
-    @OnClick({ R.id.fine_view, R.id.bad_view})
+    @OnClick(R.id.good_view)
+    public void clickGood(){
+        activityCommunication.setFirstAnswer("good");
+    }
+
+    @OnClick(R.id.fine_view)
+    public void clickFine(){
+        activityCommunication.setFirstAnswer("fine");
+    }
+
+    @OnClick(R.id.bad_view)
     public void clickBad(){
-        getActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container, SecondQuestionFragment.newInstance())
-                .commit();
+        activityCommunication.setFirstAnswer("bad");
     }
 
     @Override

@@ -1,5 +1,6 @@
 package ltd.vblago.test.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,13 +11,25 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import ltd.vblago.test.R;
+import ltd.vblago.test.model.ActivityCommunication;
 
 public class SecondQuestionFragment extends Fragment {
 
+    ActivityCommunication activityCommunication;
     Unbinder unbinder;
 
     public static SecondQuestionFragment newInstance() {
         return new SecondQuestionFragment();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof ActivityCommunication) {
+            activityCommunication = (ActivityCommunication) context;
+        } else {
+            throw new RuntimeException(Context.class.getSimpleName() + " must implement ActivityCommunication interface");
+        }
     }
 
     @Override
@@ -35,24 +48,17 @@ public class SecondQuestionFragment extends Fragment {
 
     @OnClick(R.id.range_view)
     public void clickRange(){
-        goToResultFragment();
+        activityCommunication.setSecondAnswer("range");
     }
 
     @OnClick(R.id.quality_view)
     public void clickQuality(){
-        goToResultFragment();
+        activityCommunication.setSecondAnswer("quality");
     }
 
     @OnClick(R.id.price_view)
     public void clickPrice(){
-        goToResultFragment();
-    }
-
-    private void goToResultFragment(){
-        getActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container, ResultFragment.newInstance())
-                .commit();
+        activityCommunication.setSecondAnswer("price");
     }
 
     @Override
