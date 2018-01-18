@@ -31,7 +31,7 @@ public class SendRequest extends AsyncTask<String, Void, String> {
 
         try {
 
-            URL url = new URL("https://script.google.com/macros/s/AKfycbw7RFePhEF5zG7xuRqFvpNnmDUi8BSKntjY82r7MyjFLIByiMc/exec");
+            URL url = new URL("https://script.google.com/macros/s/AKfycbymEW6A9ezLdeuhDp0ttGpjhkFsecjmaAM5m0e_hT238RYjY2g/exec");
             JSONObject postDataParams = new JSONObject();
 
             String id = "1EbPISAaL9YH9eac8lBq4XXg-TVw_8WinMKu66qpUmtM";
