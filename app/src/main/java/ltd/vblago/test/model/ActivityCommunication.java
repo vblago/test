@@ -5,4 +5,5 @@ public interface ActivityCommunication {
     void setSecondAnswer(String answer);
     void setSettings(String point);
     boolean setPoint();
+    void answerOneQuestion();
 }

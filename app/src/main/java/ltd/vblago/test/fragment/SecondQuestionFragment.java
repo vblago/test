@@ -1,7 +1,10 @@
 package ltd.vblago.test.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +20,21 @@ public class SecondQuestionFragment extends Fragment {
 
     ActivityCommunication activityCommunication;
     Unbinder unbinder;
+
+    public static final int START = 1;
+    public static final int STOP = 2;
+
+    @SuppressLint("HandlerLeak")
+    Handler h = new Handler() {
+        @Override
+        public void dispatchMessage(Message msg) {
+            if (msg.what == START) {
+                activityCommunication.answerOneQuestion();
+            } else if (msg.what == STOP) {
+                h.removeMessages(START);
+            }
+        }
+    };
 
     public static SecondQuestionFragment newInstance() {
         return new SecondQuestionFragment();
@@ -42,6 +60,7 @@ public class SecondQuestionFragment extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_second_question, container, false);
         unbinder = ButterKnife.bind(this, root);
+        h.sendEmptyMessageDelayed(START, 20_000);
 
         return root;
     }
@@ -65,5 +84,6 @@ public class SecondQuestionFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        h.sendEmptyMessage(STOP);
     }
 }

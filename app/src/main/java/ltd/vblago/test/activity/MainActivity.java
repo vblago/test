@@ -110,6 +110,12 @@ public class MainActivity extends AppCompatActivity implements ActivityCommunica
         return false;
     }
 
+    @Override
+    public void answerOneQuestion() {
+        sendInfo();
+        goToFirstQuestionFragment();
+    }
+
     private void goToFirstQuestionFragment(){
         getSupportFragmentManager()
                 .beginTransaction()
@@ -134,6 +140,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCommunica
 
     public void sendInfo() {
         new SendRequest(comment).execute();
+        comment = new Comment();
     }
 
     @Override
