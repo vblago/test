@@ -1,8 +1,11 @@
 package ltd.vblago.test.activity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -19,6 +22,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCommunica
     public Comment comment;
     Unbinder unbinder;
 
+    public static final String APP_PREFERENCES = "settings";
+    public static final String APP_PREFERENCES_POINT = "point";
+    SharedPreferences sPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCommunica
                 .beginTransaction()
                 .replace(R.id.container, FirstQuestionFragment.newInstance())
                 .commit();
+
+        sPreferences = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
     }
 
     private void hideUI() {
@@ -46,44 +55,66 @@ public class MainActivity extends AppCompatActivity implements ActivityCommunica
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        hideUI();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
-    }
-
-    @Override
     public void setFirstAnswer(String answer) {
-        if (answer.equals("great")){
-            comment.great = "1";
-            goToResultFragment();
-        } else if (answer.equals("good")){
-            comment.good = "1";
-            goToResultFragment();
-        } else if (answer.equals("fine")){
-            comment.fine = "1";
-            goToSecondQuestionFragment();
-        } else if (answer.equals("bad")){
-            comment.bad = "1";
-            goToSecondQuestionFragment();
+        switch (answer) {
+            case "great":
+                comment.great = "1";
+                goToResultFragment();
+                break;
+            case "good":
+                comment.good = "1";
+                goToResultFragment();
+                break;
+            case "fine":
+                comment.fine = "1";
+                goToSecondQuestionFragment();
+                break;
+            case "bad":
+                comment.bad = "1";
+                goToSecondQuestionFragment();
+                break;
         }
     }
 
     @Override
     public void setSecondAnswer(String answer) {
-        if (answer.equals("range")){
-            comment.range = "1";
-        } else if (answer.equals("quality")){
-            comment.quality = "1";
-        } else if (answer.equals("price")){
-            comment.price = "1";
+        switch (answer) {
+            case "range":
+                comment.range = "1";
+                break;
+            case "quality":
+                comment.quality = "1";
+                break;
+            case "price":
+                comment.price = "1";
+                break;
         }
         goToResultFragment();
+    }
+
+    @Override
+    public void setSettings(String point) {
+        SharedPreferences.Editor editor = sPreferences.edit();
+        editor.putString(APP_PREFERENCES_POINT, point);
+        editor.apply();
+        goToFirstQuestionFragment();
+    }
+
+    @Override
+    public boolean setPoint(){
+        if(sPreferences.contains(APP_PREFERENCES_POINT)) {
+            comment.point = sPreferences.getString(APP_PREFERENCES_POINT, "");
+            return true;
+        }
+        Toast.makeText(getApplicationContext(), "Выберите номер точки", Toast.LENGTH_SHORT).show();
+        return false;
+    }
+
+    private void goToFirstQuestionFragment(){
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, FirstQuestionFragment.newInstance())
+                .commit();
     }
 
     private void goToSecondQuestionFragment(){
@@ -103,5 +134,17 @@ public class MainActivity extends AppCompatActivity implements ActivityCommunica
 
     public void sendInfo() {
         new SendRequest(comment).execute();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        hideUI();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 }

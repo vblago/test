@@ -13,7 +13,6 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import ltd.vblago.test.R;
 import ltd.vblago.test.model.ActivityCommunication;
-import ltd.vblago.test.model.Comment;
 
 public class FirstQuestionFragment extends Fragment {
 
@@ -46,22 +45,38 @@ public class FirstQuestionFragment extends Fragment {
 
     @OnClick(R.id.great_view)
     public void clickGreat(){
-        activityCommunication.setFirstAnswer("great");
+        if (activityCommunication.setPoint()) {
+            activityCommunication.setFirstAnswer("great");
+        }
     }
 
     @OnClick(R.id.good_view)
     public void clickGood(){
-        activityCommunication.setFirstAnswer("good");
+        if (activityCommunication.setPoint()) {
+            activityCommunication.setFirstAnswer("good");
+        }
     }
 
     @OnClick(R.id.fine_view)
     public void clickFine(){
-        activityCommunication.setFirstAnswer("fine");
+        if (activityCommunication.setPoint()) {
+            activityCommunication.setFirstAnswer("fine");
+        }
     }
 
     @OnClick(R.id.bad_view)
     public void clickBad(){
-        activityCommunication.setFirstAnswer("bad");
+        if (activityCommunication.setPoint()) {
+            activityCommunication.setFirstAnswer("bad");
+        }
+    }
+
+    @OnClick(R.id.settings_view)
+    public void goToSettingsFragment(){
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, SettingsFragment.newInstance())
+                .commit();
     }
 
     @Override
