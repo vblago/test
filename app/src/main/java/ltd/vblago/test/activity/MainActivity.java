@@ -3,10 +3,8 @@ package ltd.vblago.test.activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 import ltd.vblago.test.R;
 import ltd.vblago.test.fragment.FirstQuestionFragment;

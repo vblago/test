@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -33,12 +32,18 @@ public class FirstQuestionFragment extends Fragment {
 
     @OnClick({ R.id.great_view, R.id.good_view})
     public void clickGood(){
-        Toast.makeText(getContext(), "Переход на страничку: Спасибо за ваш отзыв", Toast.LENGTH_SHORT).show();
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, ResultFragment.newInstance())
+                .commit();
     }
 
     @OnClick({ R.id.fine_view, R.id.bad_view})
     public void clickBad(){
-        Toast.makeText(getContext(), "Переход на страничку: Что Вам не понравилось", Toast.LENGTH_SHORT).show();
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, SecondQuestionFragment.newInstance())
+                .commit();
     }
 
     @Override

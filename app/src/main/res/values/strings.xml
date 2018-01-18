@@ -6,6 +6,10 @@
     <string name="fine_str">Нормально</string>
     <string name="bad_str">Плохо</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="second_question_str">Что вам не понравилось?</string>
+    <string name="range_str">Ассортимент</string>
+    <string name="quality_str">Качество обслуживания</string>
+    <string name="price_str">Цена</string>
+    <string name="thanks_str">Спасибо за ваш отзыв!</string>
 </resources>
